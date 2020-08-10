@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Card from './../shared/Card/Card';
 import Loading from './../shared/Loading/Loading';
+import {connect} from 'react-redux';
 
 class HackerNews extends Component {
   constructor(props) {
@@ -8,8 +9,12 @@ class HackerNews extends Component {
     this.state = { articles: [], loading: true }
   }
 
+  componentDidMount(){
+    this.props.requestArticles();
+  }
+
   render() {
-    const articles = this.state.articles.map((article => <Card key={article.id} article={article} />))
+    const articles = this.props.articles.map((article => <Card key={article.id} article={article} />))
     return (
       <div className='news-container'>
         <img style={styles.logo} src="./hackerNews.jpeg" alt="" />
@@ -19,7 +24,9 @@ class HackerNews extends Component {
   }
 }
 
-export default HackerNews;
+const mapStateToProps = state => state;
+
+export default connect(mapStateToProps, {requestArticles})(HackerNews);
 
 
 const styles = {
